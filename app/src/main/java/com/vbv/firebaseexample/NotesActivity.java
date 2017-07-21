@@ -1,5 +1,6 @@
 package com.vbv.firebaseexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +21,7 @@ public class NotesActivity extends AppCompatActivity {
     EditText titleET;
     EditText contentET;
     Button submitBtn;
+    Button logoutBtn;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userRef = database.getReference("users");
@@ -29,6 +32,8 @@ public class NotesActivity extends AppCompatActivity {
         titleET = (EditText) findViewById(R.id.titleET);
         contentET = (EditText) findViewById(R.id.contentET);
         submitBtn = (Button) findViewById(R.id.noteSubmitBtn);
+        logoutBtn = (Button) findViewById(R.id.userlogout);
+
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +55,15 @@ public class NotesActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                startActivity(new Intent(NotesActivity.this, SignUpActivity.class));
+                finish();
             }
         });
     }
